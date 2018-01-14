@@ -10,6 +10,8 @@
 #include <vector>
 #include <sstream>
 
+#include <iostream>
+
 namespace Botan {
 
 namespace BN_256_Impl {
@@ -33,10 +35,9 @@ class Params
          return p;
          };
 
-      static const BigInt& N()
+      static const BigInt& order()
          {
-         static const BigInt N("0x38997ae661c3ef3c2524282f48054c12734b3343ab8513c82387f9007f17daa9");
-         return N;
+         static const BigInt order("0x0x8fb501e34aa387f9aa6fecb86184dc22ae29838f49403218168a647d6464ba6d");
          }
 
       static const BigInt& R1()
@@ -56,6 +57,12 @@ class Params
          static const BigInt R3("0x24ebbbb3a2529292df2ff66396b107a7388f899054f538a42af2dfb9324a5bb8");
          return R3;
          };
+
+      static const BigInt& N()
+         {
+         static const BigInt N("0x38997ae661c3ef3c2524282f48054c12734b3343ab8513c82387f9007f17daa9");
+         return N;
+         }
    };
 
 class GFp1 final : public Params
@@ -66,8 +73,12 @@ class GFp1 final : public Params
          {
          if(redc_needed)
             {
-            if(value() != v)
+            if(value() != v % p())
+               {
+               std::cout << redc(v * R2()) << "\n";
+               std::cout << value() << " != " << v << " (" << m_v << ")\n";
                throw Exception("WTF");
+               }
             }
          }
 
@@ -1355,6 +1366,11 @@ BN_256::G1 BN_256::g1_generator() const
 BN_256::G2 BN_256::g2_generator() const
    {
    return m_g2_generator;
+   }
+
+const BigInt& BN_256::order() const
+   {
+   return BN_256_Impl::Params::N();
    }
 
 BN_256::GT BN_256::pairing(const BN_256::G1& g1, const BN_256::G2& g2) const

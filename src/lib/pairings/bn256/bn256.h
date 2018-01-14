@@ -84,6 +84,11 @@ class BOTAN_TEST_API BN_256 final
       size_t security_level() const { return 110; }
 
       /**
+      * Return the order of the group
+      */
+      const BigInt& order() const;
+
+      /**
       * Return the G1 generator
       */
       G1 g1_generator() const;
@@ -133,6 +138,8 @@ class BOTAN_TEST_API BN_256 final
          {
          return g2_hash(vec.data(), vec.size());
          }
+
+      // TODO hashing with string inputs
 
       template<typename Alloc>
          G1 g1_deserialize(const std::vector<uint8_t, Alloc>& vec) const
