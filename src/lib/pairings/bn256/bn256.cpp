@@ -26,6 +26,7 @@ class Params
 
       static BigInt inv_mod_p(const BigInt& x)
          {
+         // return ct_inverse_mod_odd_modulus(x, p());
          return power_mod(x, p() - 2, p());
          }
 
@@ -38,6 +39,7 @@ class Params
       static const BigInt& order()
          {
          static const BigInt order("0x0x8fb501e34aa387f9aa6fecb86184dc22ae29838f49403218168a647d6464ba6d");
+         return order;
          }
 
       static const BigInt& R1()
@@ -391,6 +393,11 @@ class GFp2 final
       GFp2 conjugate() const
          {
          return GFp2(m_x.additive_inverse(), m_y);
+         }
+
+      GFp2 mul_conjugate() const
+         {
+         return (*this) * GFp2(m_x.additive_inverse(), m_y);
          }
 
       std::string to_string() const
@@ -1124,7 +1131,7 @@ GFp12 miller_loop(const CurvePoint<GFp1>& p,
 
    // Q1 = pi(Q)
    CurvePoint<GFp2> Q1(Q.x().conjugate() * GFp2::xi1()[1],
-                  Q.y().conjugate() * GFp2::xi1()[2]);
+                       Q.y().conjugate() * GFp2::xi1()[2]);
 
    // Q2 = pi2(Q)
    CurvePoint<GFp2> Q2(Q.x() * GFp2::xi2()[1], Q.y());
