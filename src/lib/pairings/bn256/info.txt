@@ -1,0 +1,4 @@
+<defines>
+PAIRING_BN256 -> 20180113
+</defines>
+
