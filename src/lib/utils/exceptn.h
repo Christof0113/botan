@@ -228,6 +228,17 @@ class BOTAN_PUBLIC_API(2,0) Not_Implemented final : public Exception
       explicit Not_Implemented(const std::string& err);
    };
 
+/**
+* Not Supported Exception
+* This is used if an operation was attempted which could not succeed because
+* some aspect of the build configuration makes a feature not available.
+*/
+class BOTAN_PUBLIC_API(2,5) Not_Supported final : public Exception
+   {
+   public:
+      explicit Not_Supported(const std::string& err);
+   };
+
 }
 
 #endif

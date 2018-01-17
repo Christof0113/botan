@@ -102,4 +102,8 @@ Not_Implemented::Not_Implemented(const std::string& err) :
    Exception("Not implemented", err)
    {}
 
+Not_Supported::Not_Supported(const std::string& err) :
+   Exception("Not supported", err)
+   {}
+
 }
